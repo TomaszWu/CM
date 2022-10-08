@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/dockerfiles/php.dockerfile
+    volumes:
+      - ./src:/var/www/html/src:delegated
+      - ./tests:/var/www/html/tests
+      - ./vendor:/var/www/html/vendor
+      - ./config:/var/www/html/config
+      - ./file:/var/www/html/file
+      - ./file2:/var/www/html/file2
+      - ./temp:/var/www/html/temp
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  composer:
+    build:
+      context: .
+      dockerfile: docker/dockerfiles/compose.dockerfile
+    volumes:
+      - .:/var/www/html
